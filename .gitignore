@@ -1,0 +1,11 @@
+/nbproject/private/
+/build/
+/dist/
+nbactions-sonar.xml
+/target/
+nbactions.xml
+/nbproject/
+/.idea/
+*.iml
+classes/
+src/main/META-INF/MANIFEST.MF
