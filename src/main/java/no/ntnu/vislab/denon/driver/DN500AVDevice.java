@@ -1,10 +1,12 @@
-package no.ntnu.vislab.denon;
+package no.ntnu.vislab.denon.driver;
 
 import no.ntnu.vislab.vislabcontroller.annotations.DeviceSPI;
 import no.ntnu.vislab.vislabcontroller.providers.Device;
 
 @DeviceSPI
 public class DN500AVDevice implements Device, DN500AVInterface{
+    private static String MAKE = "Denon";
+    private static String MODEL = "DN500AV";
     private int volume;
     private int mute;
     private int inputSrouce;
@@ -18,15 +20,15 @@ public class DN500AVDevice implements Device, DN500AVInterface{
     }
 
     public String getMake() {
-        return null;
+        return MAKE;
     }
 
     public String getModel() {
-        return null;
+        return MODEL;
     }
 
     public String getDeviceName() {
-        return null;
+        return getMake() + " " + getModel();
     }
 
     public String getHostAddress() {
@@ -66,6 +68,26 @@ public class DN500AVDevice implements Device, DN500AVInterface{
     }
 
     public int selectInputSource(int num) {
+        return 0;
+    }
+
+    public int getVolumeValue() {
+        return volume;
+    }
+
+    public int getMuteValue() {
+        return mute;
+    }
+
+    public int getInputSrouceValue() {
+        return inputSrouce;
+    }
+
+    public int getVolume(){
+        return 0;
+    }
+
+    public int getInputSrouce() {
         return 0;
     }
 }

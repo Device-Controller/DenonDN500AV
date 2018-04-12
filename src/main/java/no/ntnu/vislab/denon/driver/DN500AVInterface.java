@@ -1,4 +1,4 @@
-package no.ntnu.vislab.denon;
+package no.ntnu.vislab.denon.driver;
 
 public interface DN500AVInterface {
 
