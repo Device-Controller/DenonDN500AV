@@ -6,7 +6,7 @@ import no.ntnu.vislab.vislabcontroller.providers.Device;
 @DeviceSPI
 public class DN500AVDevice implements Device, DN500AVInterface{
     private static String MAKE = "Denon";
-    private static String MODEL = "DN500AV";
+    private static String MODEL = "DN500-AV";
     private int volume;
     private int mute;
     private int inputSrouce;
