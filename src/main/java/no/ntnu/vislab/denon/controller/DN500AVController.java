@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import vislab.no.ntnu.DeviceManager;
 
 @Controller
 @RequestMapping("/DenonDN500AV")
@@ -13,7 +14,7 @@ public class DN500AVController  extends DeviceManager {
 
     @RequestMapping("/powerOn")
     public ResponseEntity<Integer> powerOn(@RequestParam("id") int id) {
-        DN500AVDevice device = get
+        DN500AVDevice device =
         return new ResponseEntity<>();
     }
 
