@@ -1,7 +1,7 @@
 package no.ntnu.vislab.denon.driver;
 
-import no.ntnu.vislab.vislabcontroller.annotations.DeviceSPI;
-import no.ntnu.vislab.vislabcontroller.providers.Device;
+import vislab.no.ntnu.annotations.DeviceSPI;
+import vislab.no.ntnu.providers.Device;
 
 @DeviceSPI
 public class DN500AVDevice implements Device, DN500AVInterface{

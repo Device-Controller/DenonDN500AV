@@ -22,6 +22,6 @@ public class DN500AVDriver {
     public DN500AVDriver(Socket host, List<DN500AVCommand> idleCommands) throws IOException {
         this.host = host;
         this.idleCommands = new ArrayList<>(idleCommands);
-        this.communcator = new CommunicationContext(host.getOutputStream(), host.getInputStream());
+        this.communcator = new CommunicationContext(host.getOutputStream(), host.getInputStream(), null, null);
     }
 }

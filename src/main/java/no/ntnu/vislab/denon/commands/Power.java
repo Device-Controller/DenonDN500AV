@@ -11,7 +11,7 @@ public class Power extends DN500AVCommand {
     private List<String> powerStates = new ArrayList<>();
 
     {
-        powerStates.addAll(Arrays.asList("ON,OFF".split(",")));
+        powerStates.addAll(Arrays.asList(ON,OFF));
     }
 
     public Power() {
@@ -30,5 +30,19 @@ public class Power extends DN500AVCommand {
     @Override
     public List<String> getValidValues() {
         return powerStates;
+    }
+    @Override
+    public boolean checkAck() {
+        return isMatchingCommand(getResponse());
+    }
+
+    @Override
+    public boolean isMatchingCommand(String cmd){
+        return cmd.startsWith(POWER) && powerStates.contains(cmd.substring(2));
+    }
+
+    @Override
+    public boolean isPowerOnCommand(){
+        return toString().contains(ON);
     }
 }

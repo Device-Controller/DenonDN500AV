@@ -5,26 +5,24 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import no.ntnu.vislab.denon.commands.MasterVolume;
+import no.ntnu.vislab.denon.driver.CommunicationContext;
+import no.ntnu.vislab.denon.exception.DN500AVException;
 
 public class Main {
     public static void main(String[] args) {
         try {
-            Socket s = new Socket("localhost", 23);
-            PrintWriter pw = new PrintWriter(s.getOutputStream(), true);
-            BufferedReader br = new BufferedReader(new InputStreamReader(s.getInputStream()));
-            String line;
-            pw.println("TEST");
-            pw.println("TEST");
-            pw.println("TEST");
-            pw.println("TEST");
-            pw.println("TEST");
-            pw.println("TEST");
-            pw.println("TEST");
-            pw.println("TEST");
-            while((line = br.readLine()) != null) {
-                System.out.println(line);
+            Socket s = new Socket("158.38.65.60", 23);
+            CommunicationContext context = new CommunicationContext(s.getOutputStream(),s.getInputStream(), null, new ArrayList<>(Arrays.asList(new MasterVolume("405" ),new MasterVolume("405" ),new MasterVolume(), new MasterVolume("40"))));
+            while(context != null){
+                context.execute();
             }
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (DN500AVException e) {
             e.printStackTrace();
         }
     }

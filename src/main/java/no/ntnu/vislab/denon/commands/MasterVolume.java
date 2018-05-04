@@ -11,7 +11,7 @@ public class MasterVolume extends DN500AVCommand {
     private List<String> minMaxVolumeValues = new ArrayList<>();
 
     {
-        minMaxVolumeValues.addAll(Arrays.asList("0,980".split(",")));
+        minMaxVolumeValues.addAll(Arrays.asList("0","980"));
     }
 
     public MasterVolume(){
@@ -19,6 +19,9 @@ public class MasterVolume extends DN500AVCommand {
     }
     public MasterVolume(String parameter) throws DN500AVException {
         super(VOLUME, checkVolume(parameter));
+    }
+    public MasterVolume(int value) throws DN500AVException {
+        this("" + value);
     }
 
     private static String checkVolume(String vol) throws DN500AVException {
@@ -37,5 +40,24 @@ public class MasterVolume extends DN500AVCommand {
     @Override
     public List<String> getValidValues() {
         return minMaxVolumeValues;
+    }
+    @Override
+    public boolean checkAck() {
+        return isMatchingCommand(getResponse());
+    }
+
+    @Override
+    public boolean isMatchingCommand(String cmd){
+        if(cmd == null || cmd.isEmpty()){
+            return false;
+        }
+        String s1 = cmd.split("\\r")[0].substring(2);
+        try {
+            return cmd.startsWith(VOLUME)
+                    && (Integer.parseInt(minMaxVolumeValues.get(0)) < Integer.parseInt(s1)
+                    && Integer.parseInt(minMaxVolumeValues.get(1)) > Integer.parseInt(s1));
+        } catch (NumberFormatException ex){
+            return false;
+        }
     }
 }
