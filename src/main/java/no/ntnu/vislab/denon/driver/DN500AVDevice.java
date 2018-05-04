@@ -9,7 +9,7 @@ public class DN500AVDevice implements Device, DN500AVInterface{
     private static String MODEL = "DN500-AV";
     private int volume;
     private int mute;
-    private int inputSrouce;
+    private int inputSource;
 
     public int powerOn() {
         return 0;
@@ -71,7 +71,7 @@ public class DN500AVDevice implements Device, DN500AVInterface{
         return 0;
     }
 
-    public int getVolumeValue() {
+    public int getVolume() {
         return volume;
     }
 
@@ -79,15 +79,7 @@ public class DN500AVDevice implements Device, DN500AVInterface{
         return mute;
     }
 
-    public int getInputSrouceValue() {
-        return inputSrouce;
-    }
-
-    public int getVolume(){
-        return 0;
-    }
-
-    public int getInputSrouce() {
-        return 0;
+    public int getInputSource() {
+        return inputSource;
     }
 }
