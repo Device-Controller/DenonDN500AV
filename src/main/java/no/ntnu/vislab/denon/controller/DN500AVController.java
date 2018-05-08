@@ -60,29 +60,15 @@ public class DN500AVController  extends DeviceManager {
         return new ResponseEntity<>(device.setVolume(value), HttpStatus.OK);
     }
 
-    @RequestMapping("/incrementVolume")
-    public ResponseEntity<Integer> incrementVolume(@RequestParam("id") int id
-            , @RequestParam("value") int value) {
-        DN500AVDevice device = (DN500AVDevice) getDevice(id);
-        return new ResponseEntity<>(device.volumeUp(value), HttpStatus.OK);
-    }
-
-    @RequestMapping("/decrementVolume")
-    public ResponseEntity<Integer> decrementVolume(@RequestParam("id") int id
-            , @RequestParam("value") int value) {
-        DN500AVDevice device = (DN500AVDevice) getDevice(id);
-        return new ResponseEntity<>(device.volumeDown(value), HttpStatus.OK);
-    }
-
     @RequestMapping("/setSource")
-    public ResponseEntity<Integer> setSource(@RequestParam("id") int id
-            , @RequestParam("value") int value) {
+    public ResponseEntity<String> setSource(@RequestParam("id") int id
+            , @RequestParam("value") String value) {
         DN500AVDevice device = (DN500AVDevice) getDevice(id);
         return new ResponseEntity<>(device.selectInputSource(value), HttpStatus.OK);
     }
 
     @RequestMapping("/getSource")
-    public ResponseEntity<Integer> getSource(@RequestParam("id") int id) {
+    public ResponseEntity<String> getSource(@RequestParam("id") int id) {
         DN500AVDevice device = (DN500AVDevice) getDevice(id);
         return new ResponseEntity<>(device.getInputSource(), HttpStatus.OK);
     }

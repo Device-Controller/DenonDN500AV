@@ -11,7 +11,7 @@ public class Mute extends DN500AVCommand {
     private List<String> muteStates = new ArrayList<>();
 
     {
-        muteStates.addAll(Arrays.asList("ON,OFF".split(",")));
+        muteStates.addAll(Arrays.asList(ON,OFF));
     }
 
     public Mute() {
@@ -30,5 +30,25 @@ public class Mute extends DN500AVCommand {
     @Override
     public List<String> getValidValues() {
         return muteStates;
+    }
+    @Override
+    public boolean checkAck() {
+        return isMatchingCommand(getResponse());
+    }
+
+    @Override
+    public boolean isMatchingCommand(String cmd){
+        return cmd.startsWith(MUTE) && muteStates.contains(cmd.substring(2));
+    }
+
+    public int getMuteSetting() {
+        if(!getValue().isEmpty()){
+            if(getValue().equals(ON)){
+                return 1;
+            } else if(getValue().equals(OFF)){
+                return 0;
+            }
+        }
+        return -1;
     }
 }

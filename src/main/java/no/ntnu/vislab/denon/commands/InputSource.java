@@ -29,4 +29,18 @@ public class InputSource extends DN500AVCommand {
     public List<String> getValidValues() {
         return inputSources;
     }
+
+    @Override
+    public boolean checkAck() {
+        return isMatchingCommand(getResponse());
+    }
+
+    @Override
+    public boolean isMatchingCommand(String cmd){
+        return cmd.startsWith(INPUT_SOURCE) && inputSources.contains(cmd.substring(2));
+    }
+
+    public String getInputSourceSetting() {
+        return getValue();
+    }
 }
