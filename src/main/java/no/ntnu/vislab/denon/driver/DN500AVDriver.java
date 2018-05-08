@@ -64,7 +64,6 @@ public class DN500AVDriver implements Runnable {
             }
             stopThread();
         } catch (Exception e) {
-            System.out.println("LUL EXCEPTION");
             e.printStackTrace();
         }
     }
