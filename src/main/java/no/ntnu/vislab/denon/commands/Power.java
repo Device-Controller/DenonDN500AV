@@ -45,4 +45,16 @@ public class Power extends DN500AVCommand {
     public boolean isPowerOnCommand(){
         return toString().contains(ON);
     }
+
+    public int getPowerSetting() {
+        String line = getValue();
+        if(!line.isEmpty()){
+            if(line.equals(ON)){
+                return 1;
+            } else if(line.equals(OFF)){
+                return 0;
+            }
+        }
+        return -1;
+    }
 }

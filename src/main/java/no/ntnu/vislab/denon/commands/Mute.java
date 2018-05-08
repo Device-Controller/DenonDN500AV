@@ -40,4 +40,15 @@ public class Mute extends DN500AVCommand {
     public boolean isMatchingCommand(String cmd){
         return cmd.startsWith(MUTE) && muteStates.contains(cmd.substring(2));
     }
+
+    public int getMuteSetting() {
+        if(!getValue().isEmpty()){
+            if(getValue().equals(ON)){
+                return 1;
+            } else if(getValue().equals(OFF)){
+                return 0;
+            }
+        }
+        return -1;
+    }
 }

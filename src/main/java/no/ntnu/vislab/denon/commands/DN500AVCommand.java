@@ -41,4 +41,18 @@ public abstract class DN500AVCommand extends Command {
     public boolean isPowerOnCommand(){
         return false;
     }
+    public String getValue(){
+        if(getResponse() != null && !getResponse().isEmpty()) {
+            return getResponse().substring(FIELD.length());
+        }
+        return "";
+    }
+
+    public String getField() {
+        return FIELD;
+    }
+
+    public String getParameter(){
+        return parameter;
+    }
 }

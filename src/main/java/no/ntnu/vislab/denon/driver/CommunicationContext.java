@@ -1,18 +1,26 @@
 package no.ntnu.vislab.denon.driver;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.List;
 
 import no.ntnu.vislab.denon.SimpleLineReader;
 import no.ntnu.vislab.denon.commands.DN500AVCommand;
+import no.ntnu.vislab.denon.commands.InputSource;
+import no.ntnu.vislab.denon.commands.MasterVolume;
+import no.ntnu.vislab.denon.commands.Mute;
+import no.ntnu.vislab.denon.commands.Power;
 import no.ntnu.vislab.denon.communicationstates.CommunicationState;
 import no.ntnu.vislab.denon.communicationstates.Idle;
 import no.ntnu.vislab.denon.driver.DN500AVDriver.OnCommandReady;
+import no.ntnu.vislab.denon.driver.DN500AVDriver.OnConnectionIssue;
 
 import static java.lang.Thread.sleep;
 
@@ -25,20 +33,15 @@ public class CommunicationContext {
     private int tries;
     private List<DN500AVCommand> outgoing;
 
-    public interface OnConnectionIssue {
-        void onError(DN500AVCommand cmd);
-    }
-
     private OnConnectionIssue issueListener;
     private OnCommandReady listener;
 
 
-    public CommunicationContext(OutputStream outputStream, InputStream inputStream, OnCommandReady listener, List<DN500AVCommand> outgoing) {
+    public CommunicationContext(OutputStream outputStream, InputStream inputStream, List<DN500AVCommand> outgoing) {
         this.lastSentTime = System.currentTimeMillis();
         this.printer = new PrintWriter(outputStream, true);
         this.reader = new SimpleLineReader(new InputStreamReader(inputStream));
         this.currentState = new Idle();
-        this.listener = listener;
         this.outgoing = outgoing;
     }
 
@@ -49,6 +52,10 @@ public class CommunicationContext {
 
     public void setOnConnectionIssueListener(OnConnectionIssue listener) {
         this.issueListener = listener;
+    }
+
+    public void setOnCommandListener(OnCommandReady listener) {
+        this.listener = listener;
     }
 
     public boolean hasTimedOut() {
@@ -72,12 +79,8 @@ public class CommunicationContext {
         return reader;
     }
 
-    public void execute() {
-        try {
+    public void execute() throws IOException {
             currentState.execute(this);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public boolean commandAvailable() {
@@ -112,5 +115,16 @@ public class CommunicationContext {
 
     public synchronized DN500AVCommand getAndRemove() {
         return (outgoing.isEmpty()) ? null : outgoing.remove(0);
+    }
+
+    public DN500AVCommand isCommand(String line) {
+        List<DN500AVCommand> validCmds = Arrays.asList(new Power(), new InputSource(), new MasterVolume(), new Mute());
+        DN500AVCommand cmd = null;
+        for (int i = 0; i< validCmds.size(); i++){
+            if(validCmds.get(i).isMatchingCommand(line)){
+                cmd = validCmds.get(i);
+            }
+        }
+        return cmd;
     }
 }

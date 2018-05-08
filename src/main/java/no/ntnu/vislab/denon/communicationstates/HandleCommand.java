@@ -14,8 +14,6 @@ public class HandleCommand implements CommunicationState {
 
     @Override
     public void execute(CommunicationContext context) throws IOException {
-        System.out.println(cmd.toString());
-        System.out.println(cmd.getResponse());
         if(context.getListener() != null) {
             context.getListener().onCommandReady(cmd);
         }

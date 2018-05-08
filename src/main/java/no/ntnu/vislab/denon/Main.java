@@ -10,20 +10,43 @@ import java.util.Arrays;
 
 import no.ntnu.vislab.denon.commands.MasterVolume;
 import no.ntnu.vislab.denon.driver.CommunicationContext;
+import no.ntnu.vislab.denon.driver.DN500AVDevice;
 import no.ntnu.vislab.denon.exception.DN500AVException;
 
 public class Main {
-    public static void main(String[] args) {
-        try {
-            Socket s = new Socket("158.38.65.60", 23);
-            CommunicationContext context = new CommunicationContext(s.getOutputStream(),s.getInputStream(), null, new ArrayList<>(Arrays.asList(new MasterVolume("405" ),new MasterVolume("405" ),new MasterVolume(), new MasterVolume("40"))));
-            while(context != null){
-                context.execute();
+    static DN500AVDevice device = new DN500AVDevice();
+    public static void main(String[] args) throws IOException {
+            device.setIpAddress("158.38.65.60");
+            device.setPort(23);
+            device.initialize();
+            while(device != null){
+                BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+                state(reader.readLine().toUpperCase());
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (DN500AVException e) {
-            e.printStackTrace();
+    }
+
+    private static void state(String s) {
+        switch (s){
+            case "ON":
+                device.powerOn();
+                break;
+            case "OFF":
+                device.powerOff();
+                break;
+            case "MUTE":
+                device.mute();
+                break;
+            case "UNMUTE":
+                device.unMute();
+                break;
+            case "Q":
+                device = null;
+                break;
         }
+    }
+
+    private static synchronized void wai() {
+        long time = System.currentTimeMillis();
+        while (time + 1000 > System.currentTimeMillis()) ;
     }
 }
