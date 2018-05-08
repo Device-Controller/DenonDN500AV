@@ -1,4 +1,4 @@
-package no.ntnu.vislab.denon.driver;
+package vislab.no.ntnu.denon.driver;
 
 public interface DN500AVInterface {
     int setVolume(int setting);

@@ -1,8 +1,8 @@
-package no.ntnu.vislab.denon.communicationstates;
+package vislab.no.ntnu.denon.communicationstates;
 
 import java.io.IOException;
 
-import no.ntnu.vislab.denon.driver.CommunicationContext;
+import vislab.no.ntnu.denon.driver.CommunicationContext;
 
 public class Send implements CommunicationState {
     @Override

@@ -1,4 +1,4 @@
-package no.ntnu.vislab.denon.driver;
+package vislab.no.ntnu.denon.driver;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -6,12 +6,12 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 
-import no.ntnu.vislab.denon.commands.DN500AVCommand;
-import no.ntnu.vislab.denon.commands.InputSource;
-import no.ntnu.vislab.denon.commands.MasterVolume;
-import no.ntnu.vislab.denon.commands.Mute;
-import no.ntnu.vislab.denon.commands.Power;
-import no.ntnu.vislab.denon.exception.DN500AVException;
+import vislab.no.ntnu.denon.commands.DN500AVCommand;
+import vislab.no.ntnu.denon.commands.InputSource;
+import vislab.no.ntnu.denon.commands.MasterVolume;
+import vislab.no.ntnu.denon.commands.Mute;
+import vislab.no.ntnu.denon.commands.Power;
+import vislab.no.ntnu.denon.exception.DN500AVException;
 import vislab.no.ntnu.annotations.DeviceSPI;
 import vislab.no.ntnu.providers.Device;
 

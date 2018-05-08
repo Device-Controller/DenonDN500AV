@@ -1,6 +1,4 @@
-package no.ntnu.vislab.denon.driver;
-
-import org.springframework.beans.factory.annotation.Autowired;
+package vislab.no.ntnu.denon.driver;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,16 +9,16 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.List;
 
-import no.ntnu.vislab.denon.SimpleLineReader;
-import no.ntnu.vislab.denon.commands.DN500AVCommand;
-import no.ntnu.vislab.denon.commands.InputSource;
-import no.ntnu.vislab.denon.commands.MasterVolume;
-import no.ntnu.vislab.denon.commands.Mute;
-import no.ntnu.vislab.denon.commands.Power;
-import no.ntnu.vislab.denon.communicationstates.CommunicationState;
-import no.ntnu.vislab.denon.communicationstates.Idle;
-import no.ntnu.vislab.denon.driver.DN500AVDriver.OnCommandReady;
-import no.ntnu.vislab.denon.driver.DN500AVDriver.OnConnectionIssue;
+import vislab.no.ntnu.denon.SimpleLineReader;
+import vislab.no.ntnu.denon.commands.DN500AVCommand;
+import vislab.no.ntnu.denon.commands.InputSource;
+import vislab.no.ntnu.denon.commands.MasterVolume;
+import vislab.no.ntnu.denon.commands.Mute;
+import vislab.no.ntnu.denon.commands.Power;
+import vislab.no.ntnu.denon.communicationstates.CommunicationState;
+import vislab.no.ntnu.denon.communicationstates.Idle;
+import vislab.no.ntnu.denon.driver.DN500AVDriver.OnCommandReady;
+import vislab.no.ntnu.denon.driver.DN500AVDriver.OnConnectionIssue;
 
 import static java.lang.Thread.sleep;
 

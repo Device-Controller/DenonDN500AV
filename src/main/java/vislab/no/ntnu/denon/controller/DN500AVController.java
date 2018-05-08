@@ -1,12 +1,14 @@
-package no.ntnu.vislab.denon.controller;
+package vislab.no.ntnu.denon.controller;
 
-import no.ntnu.vislab.denon.driver.DN500AVDevice;
+import vislab.no.ntnu.denon.driver.DN500AVDevice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import vislab.no.ntnu.DeviceManager;
+import vislab.no.ntnu.providers.Device;
+import vislab.no.ntnu.providers.Projector;
 
 @Controller
 @RequestMapping("/DenonDN500AV")
@@ -71,5 +73,17 @@ public class DN500AVController  extends DeviceManager {
     public ResponseEntity<String> getSource(@RequestParam("id") int id) {
         DN500AVDevice device = (DN500AVDevice) getDevice(id);
         return new ResponseEntity<>(device.getInputSource(), HttpStatus.OK);
+    }
+
+    @Override
+    public String getDevicePage(int id){
+        if(getSoundSystem(id) != null){
+            return "forward:/denon/denon.html";
+        }
+        return super.getDevicePage(id);
+    }
+    protected Device getSoundSystem(int id) {
+        Device device = getActiveDevices().get(id);
+        return device;
     }
 }

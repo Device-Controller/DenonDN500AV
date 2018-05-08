@@ -1,4 +1,4 @@
-package no.ntnu.vislab.denon;
+package vislab.no.ntnu.denon;
 
 import java.io.BufferedReader;
 import java.io.IOException;

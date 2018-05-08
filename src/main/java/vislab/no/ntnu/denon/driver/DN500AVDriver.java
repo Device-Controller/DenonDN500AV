@@ -1,12 +1,10 @@
-package no.ntnu.vislab.denon.driver;
+package vislab.no.ntnu.denon.driver;
 
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.List;
 
-import no.ntnu.vislab.denon.commands.DN500AVCommand;
-import vislab.no.ntnu.providers.Command;
+import vislab.no.ntnu.denon.commands.DN500AVCommand;
 
 public class DN500AVDriver implements Runnable {
     private Socket host;

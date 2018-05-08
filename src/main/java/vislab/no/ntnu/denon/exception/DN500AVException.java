@@ -1,4 +1,4 @@
-package no.ntnu.vislab.denon.exception;
+package vislab.no.ntnu.denon.exception;
 
 public class DN500AVException extends Exception{
     private final String message;

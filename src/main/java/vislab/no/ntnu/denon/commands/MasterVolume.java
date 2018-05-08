@@ -1,10 +1,10 @@
-package no.ntnu.vislab.denon.commands;
+package vislab.no.ntnu.denon.commands;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import no.ntnu.vislab.denon.exception.DN500AVException;
+import vislab.no.ntnu.denon.exception.DN500AVException;
 
 public class MasterVolume extends DN500AVCommand {
     private static final String VOLUME = "MV";

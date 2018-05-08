@@ -1,9 +1,9 @@
-package no.ntnu.vislab.denon.communicationstates;
+package vislab.no.ntnu.denon.communicationstates;
 
 import java.io.IOException;
 
-import no.ntnu.vislab.denon.commands.DN500AVCommand;
-import no.ntnu.vislab.denon.driver.CommunicationContext;
+import vislab.no.ntnu.denon.commands.DN500AVCommand;
+import vislab.no.ntnu.denon.driver.CommunicationContext;
 
 public class HandleCommand implements CommunicationState {
     private DN500AVCommand cmd;

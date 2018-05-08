@@ -1,4 +1,4 @@
-package no.ntnu.vislab.denon.commands;
+package vislab.no.ntnu.denon.commands;
 
 import java.util.List;
 
