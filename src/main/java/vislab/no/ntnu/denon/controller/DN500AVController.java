@@ -78,7 +78,7 @@ public class DN500AVController  extends DeviceManager {
     @Override
     public String getDevicePage(int id){
         if(getSoundSystem(id) != null){
-            return "forward:/denon/denon.html";
+            return "forward:/dn500av/dn500av.html";
         }
         return super.getDevicePage(id);
     }
