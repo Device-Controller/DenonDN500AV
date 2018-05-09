@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Denon DN500AV</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/../images/favicon.ico"/>
+    <link rel="stylesheet" href="../theme.css">
+    <link rel="stylesheet" href="../dn500av/dn500av.css">
+    <script src="../templatescript.js"></script>
+</head>
+<body>
+<div include-html="template.html"></div>
+<div class="table-container">
+    <table class="display-table">
+        <image src="Images/soundsystem_icon_simple.png" alt="projector image">
+            <tr class="header-row">
+                <td>Setting</td>
+                <td>Current Value</td>
+                <td>New Value</td>
+            </tr>
+            <tr>
+                <td>Power</td>
+                <td id="power-setting">Loading...</td>
+                <td>
+                    <select>
+                        <option>On</option>
+                        <option>Off</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>PowerState</td>
+                <td id="get-powerstate">Loading...</td>
+            </tr>
+            <tr>
+                <td>Source</td>
+                <td id="get-source">Loading...</td>
+                <td>
+                    <select>
+                        <option value="" selected disabled hidden>Options</option>
+                        <option>stuff1</option>
+                        <option>stuff2</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Mute</td>
+                <td id="mute-state">Loading...</td>
+                <td>
+                    <select id="muteList">
+                        <option value="" selected disabled hidden>Options</option>
+                        <option value="mute">Mute</option>
+                        <option value="unMute">Unmute</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Volume</td>
+                <td>
+                    <input type="number" id="volume-value" value="0" min="0" max="100"
+                           onload="setValue(this, volume)" style="width:50px;">
+                </td>
+                <td>
+                    <div class="slider-container">
+                        <input type="range" min="-100" max="100" value="0" class="slider" id="volume"
+                               oninput="VolumeFinder()" onmouseup="setVolume(this)">
+                    </div>
+                    <script>
+                        function VolumeFinder() {
+                            let slider = document.getElementById('volume').value;
+                            document.getElementById('volume-value').value = slider;
+                        }
+                    </script>
+                </td>
+            </tr>
+    </table>
+</div>
+<script>
+    includeHTML();
+</script>
+</body>
+<script src="/dn500av/dn500av.js"></script>
+</html>
