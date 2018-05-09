@@ -138,9 +138,9 @@ public class DN500AVDevice implements Device, DN500AVInterface {
         return Integer.parseInt((fields.get(field) != null) ? fields.get(field) : "-1");
     }
 
-    public int getMuteValue() {
+    public String getMuteValue() {
         String field = Mute.MUTE;
-        return Integer.parseInt((fields.get(field) != null) ? fields.get(field) : "-1");
+        return (fields.get(field) != null) ? fields.get(field) : "-1";
     }
 
     public String getInputSourceValue() {
