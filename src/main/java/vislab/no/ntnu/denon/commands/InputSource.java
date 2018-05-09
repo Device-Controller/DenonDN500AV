@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class InputSource extends DN500AVCommand {
-    private static final String INPUT_SOURCE = "SI";
+    public static final String INPUT_SOURCE = "SI";
     private List<String> inputSources = new ArrayList<>();
 
     {

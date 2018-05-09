@@ -14,6 +14,7 @@ import vislab.no.ntnu.denon.commands.Power;
 import vislab.no.ntnu.denon.exception.DN500AVException;
 import vislab.no.ntnu.annotations.DeviceSPI;
 import vislab.no.ntnu.providers.Device;
+import vislab.no.ntnu.providers.PowerStates;
 
 @DeviceSPI
 public class DN500AVDevice implements Device, DN500AVInterface {
@@ -133,17 +134,17 @@ public class DN500AVDevice implements Device, DN500AVInterface {
     }
 
     public int getVolumeValue() {
-        String field = new MasterVolume().getField();
+        String field = MasterVolume.VOLUME;
         return Integer.parseInt((fields.get(field) != null) ? fields.get(field) : "-1");
     }
 
-    public int getMuteValue() {
-        String field = new Mute().getField();
-        return Integer.parseInt((fields.get(field) != null) ? fields.get(field) : "-1");
+    public String getMuteValue() {
+        String field = Mute.MUTE;
+        return (fields.get(field) != null) ? fields.get(field) : "-1";
     }
 
     public String getInputSourceValue() {
-        String field = new InputSource().getField();
+        String field =InputSource.INPUT_SOURCE;
         return (fields.get(field) != null) ? fields.get(field) : "NONE";
     }
 
@@ -182,6 +183,19 @@ public class DN500AVDevice implements Device, DN500AVInterface {
     @Override
     public void setPort(int port) {
         portNumber = port;
+    }
+
+    @Override
+    public int getPowerState() {
+        String powerState = fields.get(Power.POWER);
+        switch (powerState){
+            case Power.OFF:
+                return PowerStates.OFF;
+
+            case Power.ON:
+                return PowerStates.ON;
+        }
+        return -1;
     }
 
 }
