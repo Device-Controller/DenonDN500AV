@@ -32,7 +32,7 @@ public class DN500AVController  extends DeviceManager {
     }
 
     @RequestMapping("/getMute")
-    public ResponseEntity<Integer> getMute(@RequestParam("id") int id) {
+    public ResponseEntity<String> getMute(@RequestParam("id") int id) {
         DN500AVDevice device = (DN500AVDevice) getDevice(id);
         return new ResponseEntity<>(device.getMuteValue(), HttpStatus.OK);
     }
