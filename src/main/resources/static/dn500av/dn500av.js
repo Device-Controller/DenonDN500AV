@@ -1,7 +1,7 @@
 parseURLId(location.href);
 let id;
 
-updateData();
+
 
 function parseURLId(url) {
     let startIndex = url.indexOf("?") + 1;
@@ -44,7 +44,7 @@ function unMute() {
 document.querySelector('#volume-value').addEventListener('keypress', function (e) {
     var key = e.which || e.keyCode;
     if (key === 13) {
-        setVolume(document.querySelector('#Volume-value'));
+        setVolume(document.querySelector('#volume-value'));
         document.querySelector('#volume').value = document.querySelector('#volume-value').value;
     }
 });
@@ -61,6 +61,7 @@ function setVolume(number) {
 
 function setValue(element1, element2) {
     element1.value = document.getElementById(element2).value;
+    setVolume(element2.value);
 }
 
 
@@ -80,13 +81,14 @@ function setValue(element1, element2) {
 
 function updateData() {
     //GET DEVICE
+    console.log(parseURLId(location.href));
     fetch('DenonDN500AV/getMute?id=' + parseURLId(location.href)).then(response => {
-        console.log(response);
     if (response.ok) {
-        console.log(response);
         response.json().then(p => {
-            document.getElementById("mute-state").value = p;
             console.log(p);
+            if (p == -1) {
+                document.getElementById("mute-state").value = "" + p;
+            }
 
         });
     }
@@ -108,3 +110,4 @@ function updateData() {
     }
 });
 }
+updateData();
