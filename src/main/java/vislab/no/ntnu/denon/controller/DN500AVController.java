@@ -10,6 +10,8 @@ import vislab.no.ntnu.DeviceManager;
 import vislab.no.ntnu.providers.Device;
 import vislab.no.ntnu.providers.Projector;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/DenonDN500AV")
 public class DN500AVController  extends DeviceManager {
@@ -73,6 +75,12 @@ public class DN500AVController  extends DeviceManager {
     public ResponseEntity<String> getSource(@RequestParam("id") int id) {
         DN500AVDevice device = (DN500AVDevice) getDevice(id);
         return new ResponseEntity<>(device.getInputSource(), HttpStatus.OK);
+    }
+
+    @RequestMapping("/getSources")
+    public ResponseEntity<List<String>> getSources(@RequestParam("id") int id) {
+        DN500AVDevice device = (DN500AVDevice) getDevice(id);
+        return new ResponseEntity<>(device.getInputSources(), HttpStatus.OK);
     }
 
     @Override

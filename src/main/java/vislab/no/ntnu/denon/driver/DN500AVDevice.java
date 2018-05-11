@@ -5,6 +5,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.HashMap;
+import java.util.List;
 
 import vislab.no.ntnu.denon.commands.DN500AVCommand;
 import vislab.no.ntnu.denon.commands.InputSource;
@@ -146,6 +147,11 @@ public class DN500AVDevice implements Device, DN500AVInterface {
     public String getInputSourceValue() {
         String field =InputSource.INPUT_SOURCE;
         return (fields.get(field) != null) ? fields.get(field) : "NONE";
+    }
+
+    public List<String> getInputSources() {
+        InputSource is = new InputSource();
+        return is.inputSources;
     }
 
     public String getMake() {
