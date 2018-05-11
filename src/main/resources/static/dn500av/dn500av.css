@@ -1,35 +1,29 @@
 
-body {
-}
-td {
-    border: solid 2px #ff1801;
-}
-
-.table-container {
-    border: solid 2px black;
-    display: inline-block;
-    color: white;
-    margin-left: 0;
-    margin-right: 0;
-    margin-top: 2%;
-}
-
-@media only screen and (min-width: 821px) {
-    .table-container {
-        border: solid 2px black;
-        display: inline-block;
-        color: white;
-        margin-left: 35%;
-        margin-right: 35%;
-        margin-top: 2%;
-    }
-}
 
 .display-table {
-    border: solid 2px black;
     border-collapse: collapse;
 }
 .header-row {
     font-size: 16px;
     font-weight:  700;
+}
+body {
+    color: white;
+}
+
+td {
+    border: solid 2px #bfbfbf;
+    border-top: none;
+}
+
+.table-container {
+    border: solid 2px black;
+    display: inline-block;
+    margin: 1%;
+    background-color: #545454;
+    border-radius: 2%;
+}
+
+.display-table {
+    border-collapse: collapse;
 }
