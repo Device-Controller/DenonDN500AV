@@ -144,6 +144,11 @@ public class DN500AVDevice implements Device, DN500AVInterface {
         return (fields.get(field) != null) ? fields.get(field) : "-1";
     }
 
+    public String getPowerValue() {
+        String field = Power.POWER;
+        return (fields.get(field) != null) ? fields.get(field) : "-1";
+    }
+
     public String getInputSourceValue() {
         String field =InputSource.INPUT_SOURCE;
         return (fields.get(field) != null) ? fields.get(field) : "NONE";

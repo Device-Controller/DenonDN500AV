@@ -16,28 +16,12 @@ function parseId(id) {
 }
 
 document.getElementById("muteList").onchange = function () {
-    if (this.value == 'mute') {
-        mute();
-    } else if (this.value == 'unMute') {
-        unMute();
-    }
+    fetch('DenonDN500AV/' + this.value + '?id=' + parseURLId(location.href));
 };
-
-function mute() {
-    fetch('DenonDN500AV/mute?id=' + parseURLId(location.href)).then(response => {
-        if (response.ok) {
-            response.json().then(e => console.log(e));
-        }
-    })
-}
-
-function unMute() {
-    fetch('DenonDN500AV/unMute?id=' + parseURLId(location.href)).then(response => {
-        if (response.ok) {
-            response.json().then(e => console.log(e));
-        }
-    })
-}
+document.getElementById("power-list").onchange = function() {
+    fetch('DenonDN500AV/power' + this.value + '?id=' + parseURLId(location.href));
+    console.log(this.value);
+};
 
 
 document.querySelector('#volume-value').addEventListener('keypress', function (e) {
@@ -64,6 +48,7 @@ function setValue(element1, element2) {
 }
 document.getElementById("source-list").onchange = function() {
     fetch('DenonDN500AV/setSource?id=' + parseURLId(location.href) + '&value=' + this.value);
+    document.getElementById("get-source").innerHTML = this.value;
 }
 
 function populateDropdown() {
@@ -93,6 +78,15 @@ function updateData() {
                     document.getElementById("mute-state").innerHTML = "" + p;
                 }
 
+            });
+        }
+    });
+
+    fetch('DenonDN500AV/getPower?id=' + parseURLId(location.href)).then(response => {
+        if (response.ok) {
+            response.json().then(p => {
+                console.log(p);
+                    document.getElementById("power-setting").innerHTML = "" + p;
             });
         }
     });

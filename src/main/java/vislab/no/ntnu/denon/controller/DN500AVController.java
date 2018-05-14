@@ -33,6 +33,12 @@ public class DN500AVController  extends DeviceManager {
         return new ResponseEntity<>(device.powerOff(), HttpStatus.OK);
     }
 
+    @RequestMapping("/getPower")
+    public ResponseEntity<String> getPower(@RequestParam("id") int id) {
+        DN500AVDevice device = (DN500AVDevice) getDevice(id);
+        return new ResponseEntity<>(device.getPowerValue(), HttpStatus.OK);
+    }
+
     @RequestMapping("/getMute")
     public ResponseEntity<String> getMute(@RequestParam("id") int id) {
         DN500AVDevice device = (DN500AVDevice) getDevice(id);
