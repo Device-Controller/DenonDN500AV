@@ -17,7 +17,7 @@ public class DN500AVDriver implements Runnable {
     }
 
     public interface OnConnectionIssue {
-        void onError();
+        void onError(DN500AVCommand cmd);
     }
 
     private OnConnectionIssue issueCallback;
@@ -75,7 +75,7 @@ public class DN500AVDriver implements Runnable {
 
     public boolean stopThread() {
         if (issueCallback != null) {
-            issueCallback.onError();
+            issueCallback.onError(null);
         }
         running = false;
         return running;

@@ -37,7 +37,10 @@ public class DN500AVDevice implements Device, DN500AVInterface {
         return communicationDriver;
     }
 
-    private void handleError() {
+    private void handleError(DN500AVCommand cmd) {
+        if(cmd != null){
+            cmd.setResponse("ERROR");
+        }
     }
 
     private void processCommand(DN500AVCommand dn500AVCommand) {

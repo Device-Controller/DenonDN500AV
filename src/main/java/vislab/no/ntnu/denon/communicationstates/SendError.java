@@ -10,7 +10,7 @@ public class SendError implements CommunicationState {
     public void execute(CommunicationContext context) throws IOException {
         DN500AVCommand cmd = context.getAndRemove();
         if(context.getOnConnectionErrorListener() != null) {
-            context.getOnConnectionErrorListener().onError();
+            context.getOnConnectionErrorListener().onError(cmd);
         }
         context.resetTries();
         context.changeState(new Idle());
