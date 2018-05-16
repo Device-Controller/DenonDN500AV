@@ -8,12 +8,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import vislab.no.ntnu.DeviceManager;
 import vislab.no.ntnu.providers.Device;
-import vislab.no.ntnu.providers.Projector;
 
 import java.util.List;
 
 @Controller
-@RequestMapping("/DenonDN500AV")
+@RequestMapping("/api/DenonDN500AV")
 public class DN500AVController  extends DeviceManager {
 
     @RequestMapping("/echo")
