@@ -31,13 +31,23 @@ public class InputSource extends DN500AVCommand {
     }
 
     @Override
+    public boolean extendedWaitTime() {
+        return true;
+    }
+
+    @Override
     public boolean checkAck() {
         return isMatchingCommand(getResponse());
     }
 
     @Override
     public boolean isMatchingCommand(String cmd){
-        return cmd.startsWith(INPUT_SOURCE) && inputSources.contains(cmd.substring(2));
+        String[] str = cmd.split("\\r?\\n");
+        boolean matches = false;
+        for(int i = 0; i< str.length; i++){
+            matches = matches || str[i].startsWith(INPUT_SOURCE) && inputSources.contains(str[i].substring(2));
+        }
+        return matches;
     }
 
     public String getInputSourceSetting() {

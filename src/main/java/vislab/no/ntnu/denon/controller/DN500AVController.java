@@ -9,7 +9,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import vislab.no.ntnu.DeviceManager;
 import vislab.no.ntnu.providers.Device;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/api/DenonDN500AV")
@@ -28,15 +32,15 @@ public class DN500AVController  extends DeviceManager {
     }
 
     @RequestMapping("/getPower")
-    public ResponseEntity<String> getPower(@RequestParam("id") int id) {
+    public ResponseEntity<StringResponse> getPower(@RequestParam("id") int id) {
         DN500AVDevice device = (DN500AVDevice) getDevice(id);
-        return new ResponseEntity<>(device.getPowerValue(), HttpStatus.OK);
+        return new ResponseEntity<>(new StringResponse(device.getPowerValue()), HttpStatus.OK);
     }
 
     @RequestMapping("/getMute")
-    public ResponseEntity<String> getMute(@RequestParam("id") int id) {
+    public ResponseEntity<StringResponse> getMute(@RequestParam("id") int id) {
         DN500AVDevice device = (DN500AVDevice) getDevice(id);
-        return new ResponseEntity<>(device.getMuteValue(), HttpStatus.OK);
+        return new ResponseEntity<>(new StringResponse(device.getMuteValue()), HttpStatus.OK);
     }
 
     @RequestMapping("/mute")
@@ -93,5 +97,16 @@ public class DN500AVController  extends DeviceManager {
     protected Device getSoundSystem(int id) {
         Device device = getActiveDevices().get(id);
         return device;
+    }
+
+    private class StringResponse {
+        private String response;
+        public StringResponse(String response){
+            this.response = response;
+        }
+
+        public String getResponse() {
+            return response;
+        }
     }
 }

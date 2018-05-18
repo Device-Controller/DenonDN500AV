@@ -42,13 +42,13 @@ public class Power extends DN500AVCommand {
     }
 
     @Override
-    public boolean isPowerOnCommand(){
+    public boolean extendedWaitTime(){
         return toString().contains(ON);
     }
 
     public int getPowerSetting() {
         String line = getValue();
-        if(!line.isEmpty()){
+        if(line != null && !line.isEmpty()){
             if(line.equals(ON)){
                 return 1;
             } else if(line.equals(OFF)){

@@ -38,8 +38,9 @@ public class DN500AVDevice implements Device, DN500AVInterface {
     }
 
     private void handleError(DN500AVCommand cmd) {
-        if(cmd != null){
+        if (cmd != null) {
             cmd.setResponse("ERROR");
+            fields.remove(cmd.getField());
         }
     }
 
@@ -64,17 +65,21 @@ public class DN500AVDevice implements Device, DN500AVInterface {
 
     private synchronized void send(DN500AVCommand cmd) {
         String field = fields.get(cmd.getField());
-        if(field == null || !field.equals(cmd.getParameter())){
-            while (driver == null || !driver.queueCommand(cmd)) {
+        boolean error = false;
+        if ((field == null || !field.equals(cmd.getParameter()))) {
+            while ((driver == null || !driver.queueCommand(cmd)) && !error) {
                 try {
                     driver = setUpDriver();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    error = true;
                 }
             }
+            long timeout = System.currentTimeMillis();
             while (cmd.getResponse() == null) {
                 try {
-                    wait(200);
+                    if (timeout + 200 > System.currentTimeMillis()) {
+                        wait(200);
+                    }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -96,8 +101,16 @@ public class DN500AVDevice implements Device, DN500AVInterface {
     }
 
     public int setVolume(int setting) {
+        String value = "" + setting;
+        if (setting > 99) {
+            value = "995";
+        } else if (setting >= 0 && setting < 10) {
+            value = "0" + setting;
+        } else if (setting < 0) {
+            value = "00";
+        }
         try {
-            MasterVolume masterVolume = new MasterVolume(setting);
+            MasterVolume masterVolume = new MasterVolume(value);
             send(masterVolume);
             return masterVolume.getMasterVolumeSetting();
         } catch (DN500AVException e) {
@@ -153,7 +166,7 @@ public class DN500AVDevice implements Device, DN500AVInterface {
     }
 
     public String getInputSourceValue() {
-        String field =InputSource.INPUT_SOURCE;
+        String field = InputSource.INPUT_SOURCE;
         return (fields.get(field) != null) ? fields.get(field) : "NONE";
     }
 
@@ -202,12 +215,14 @@ public class DN500AVDevice implements Device, DN500AVInterface {
     @Override
     public int getPowerState() {
         String powerState = fields.get(Power.POWER);
-        switch (powerState){
-            case Power.OFF:
-                return PowerStates.OFF;
+        if (powerState != null) {
+            switch (powerState) {
+                case Power.OFF:
+                    return PowerStates.OFF;
 
-            case Power.ON:
-                return PowerStates.ON;
+                case Power.ON:
+                    return PowerStates.ON;
+            }
         }
         return -1;
     }
