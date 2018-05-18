@@ -42,7 +42,7 @@ public class Mute extends DN500AVCommand {
     }
 
     public int getMuteSetting() {
-        if(!getValue().isEmpty()){
+        if(getValue() != null && !getValue().isEmpty()){
             if(getValue().equals(ON)){
                 return 1;
             } else if(getValue().equals(OFF)){

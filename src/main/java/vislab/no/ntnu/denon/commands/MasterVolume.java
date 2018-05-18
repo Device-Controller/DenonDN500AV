@@ -62,7 +62,7 @@ public class MasterVolume extends DN500AVCommand {
     }
 
     public int getMasterVolumeSetting() {
-        if(!getResponse().isEmpty()) {
+        if(getResponse() != null && !getResponse().isEmpty()) {
             try {
                 return Integer.parseInt(getValue());
             } catch (NumberFormatException e){

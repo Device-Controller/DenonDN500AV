@@ -47,9 +47,13 @@ function setValue(element1, element2) {
     setVolume(element2.value);
 }
 document.getElementById("source-list").onchange = function() {
-    fetch('DenonDN500AV/setSource?id=' + parseURLId(location.href) + '&value=' + this.value);
-    document.getElementById("get-source").innerHTML = this.value;
-}
+    fetch('DenonDN500AV/setSource?id=' + parseURLId(location.href) + '&value=' + this.value).then(r=>{
+        if(r.ok){
+            document.getElementById("get-source").innerHTML = this.value;
+            updateData();
+        }
+    })
+};
 
 function populateDropdown() {
     let dropdown = document.getElementById("source-list");
@@ -74,9 +78,7 @@ function updateData() {
         if (response.ok) {
             response.json().then(p => {
                 console.log(p);
-                if (p == -1) {
-                    document.getElementById("mute-state").innerHTML = "" + p;
-                }
+                    document.getElementById("mute-state").innerHTML = "" + p.response;
 
             });
         }
@@ -86,7 +88,7 @@ function updateData() {
         if (response.ok) {
             response.json().then(p => {
                 console.log(p);
-                    document.getElementById("power-setting").innerHTML = "" + p;
+                    document.getElementById("power-setting").innerHTML = "" + p.response;
             });
         }
     });
@@ -103,6 +105,7 @@ function updateData() {
 
     fetch('DenonDN500AV/getSource?id=' + parseURLId(location.href)).then(response => {
         if (response.ok) {
+            console.log(response);
             response.text().then(e => {
                 console.log(e);
                 document.getElementById("get-source").innerHTML = e;
