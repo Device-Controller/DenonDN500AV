@@ -9,11 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import vislab.no.ntnu.DeviceManager;
 import vislab.no.ntnu.providers.Device;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/api/DenonDN500AV")
