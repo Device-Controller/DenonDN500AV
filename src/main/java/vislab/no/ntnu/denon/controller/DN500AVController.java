@@ -15,11 +15,6 @@ import java.util.List;
 @RequestMapping("/api/DenonDN500AV")
 public class DN500AVController  extends DeviceManager {
 
-    @RequestMapping("/echo")
-    public ResponseEntity<String> yolo(@RequestParam ("marco") String marco){
-        return new ResponseEntity<>("yolo", HttpStatus.OK);
-    }
-
     @RequestMapping("/powerOn")
     public ResponseEntity<Integer> powerOn(@RequestParam("id") int id) {
         DN500AVDevice device = (DN500AVDevice) getDevice(id);
