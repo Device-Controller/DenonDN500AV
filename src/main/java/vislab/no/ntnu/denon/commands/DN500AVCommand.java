@@ -31,6 +31,9 @@ public abstract class DN500AVCommand extends Command {
     }
 
 
+    public boolean isGETTER() {
+        return GETTER;
+    }
 
     @Override
     public String toString() {

@@ -39,7 +39,7 @@ public class DN500AVDevice implements Device, DN500AVInterface {
 
     private void handleError(DN500AVCommand cmd) {
         if (cmd != null) {
-            cmd.setResponse("ERROR");
+            cmd.setResponse("E:ERROR");
             fields.remove(cmd.getField());
         }
     }
@@ -67,22 +67,25 @@ public class DN500AVDevice implements Device, DN500AVInterface {
         String field = fields.get(cmd.getField());
         boolean error = false;
         if ((field == null || !field.equals(cmd.getParameter()))) {
-            while ((driver == null || !driver.queueCommand(cmd)) && !error) {
+            while (driver == null && !error) {
                 try {
                     driver = setUpDriver();
                 } catch (IOException e) {
                     error = true;
                 }
             }
+            driver.queueCommand(cmd);
             long timeout = System.currentTimeMillis();
-            while (cmd.getResponse() == null) {
+            int waitTime = (cmd.extendedWaitTime() ? 1000 : 200);
+            while (cmd.getResponse() == null && timeout + (waitTime * 3)> System.currentTimeMillis()) {
                 try {
-                    if (timeout + 200 > System.currentTimeMillis()) {
-                        wait(200);
-                    }
+                        wait(waitTime);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+            }
+            if(cmd.getResponse() == null){
+                handleError(cmd);
             }
         }
     }

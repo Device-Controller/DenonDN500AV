@@ -32,7 +32,7 @@ public class InputSource extends DN500AVCommand {
 
     @Override
     public boolean extendedWaitTime() {
-        return true;
+        return !isGETTER();
     }
 
     @Override

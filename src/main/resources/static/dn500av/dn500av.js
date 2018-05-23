@@ -49,8 +49,7 @@ function setValue(element1, element2) {
 document.getElementById("source-list").onchange = function() {
     fetch('api/DenonDN500AV/setSource?id=' + parseURLId(location.href) + '&value=' + this.value).then(r=>{
         if(r.ok){
-            document.getElementById("get-source").innerHTML = this.value;
-            updateData();
+            r.text().then(t=> document.getElementById("get-source").innerHTML = t);
         }
     })
 };
@@ -73,6 +72,7 @@ function populateDropdown() {
 
 
 function updateData() {
+    populateDropdown();
     //GET DEVICE
     fetch('api/DenonDN500AV/getMute?id=' + parseURLId(location.href)).then(response => {
         if (response.ok) {
@@ -96,7 +96,8 @@ function updateData() {
 
     fetch('api/DenonDN500AV/getVolume?id=' + parseURLId(location.href)).then(response => {
         if (response.ok) {
-            response.json().then(e => {
+            response.text().then(e => {
+                console.log(e);
                 document.getElementById("volume").value = e;
                 document.getElementById("volume-value").value = e;
             });
@@ -109,7 +110,6 @@ function updateData() {
             response.text().then(e => {
                 console.log(e);
                 document.getElementById("get-source").innerHTML = e;
-                populateDropdown();
             });
         }
     });
