@@ -58,7 +58,7 @@
                 <td>
                     <div class="slider-container">
                         <input type="range" min="0" max="100" value="0" class="slider" id="volume"
-                               oninput="VolumeFinder()" onmouseup="setVolume(this)">
+                               oninput="VolumeFinder()" onmouseup="setVolume(this)" ondragend="setVolume(this)" ontouchend="setVolume(this)">
                     </div>
                     <script>
                         function VolumeFinder() {
