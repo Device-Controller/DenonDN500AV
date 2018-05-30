@@ -92,7 +92,10 @@ public class DN500AVController  extends DeviceManager {
     }
     protected Device getSoundSystem(int id) {
         Device device = getActiveDevices().get(id);
-        return device;
+        if(device instanceof DN500AVDevice) {
+            return device;
+        }
+        return null;
     }
 
     private class StringResponse {

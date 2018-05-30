@@ -66,26 +66,28 @@ public class DN500AVDevice implements Device, DN500AVInterface {
     private synchronized void send(DN500AVCommand cmd) {
         String field = fields.get(cmd.getField());
         boolean error = false;
+        while (!(driver != null || error)) {
+            try {
+                driver = setUpDriver();
+            } catch (IOException e) {
+                error = true;
+            }
+        }
         if ((field == null || !field.equals(cmd.getParameter()))) {
-            while (driver == null && !error) {
-                try {
-                    driver = setUpDriver();
-                } catch (IOException e) {
-                    error = true;
-                }
-            }
-            driver.queueCommand(cmd);
-            long timeout = System.currentTimeMillis();
-            int waitTime = (cmd.extendedWaitTime() ? 1000 : 200);
-            while (cmd.getResponse() == null && timeout + (waitTime * 3)> System.currentTimeMillis()) {
-                try {
+            if(driver != null) {
+                driver.queueCommand(cmd);
+                long timeout = System.currentTimeMillis();
+                int waitTime = (cmd.extendedWaitTime() ? 1000 : 200);
+                while (cmd.getResponse() == null && timeout + (waitTime * 3) > System.currentTimeMillis()) {
+                    try {
                         wait(waitTime);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
-            if(cmd.getResponse() == null){
-                handleError(cmd);
+                if (cmd.getResponse() == null) {
+                    handleError(cmd);
+                }
             }
         }
     }
