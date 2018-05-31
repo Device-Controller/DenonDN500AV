@@ -86,7 +86,7 @@ public class CommunicationContext {
 
     public DN500AVCommand getCommand() {
         DN500AVCommand cmd = (outgoing.isEmpty()) ? null : outgoing.get(0);
-        timeout = (cmd != null && cmd.isPowerOnCommand()) ? 1000 : 200;
+        timeout = (cmd != null && cmd.extendedWaitTime()) ? 1000 : 220;
         return cmd;
     }
 
@@ -105,7 +105,6 @@ public class CommunicationContext {
     public OnConnectionIssue getOnConnectionErrorListener() {
         return issueListener;
     }
-
     public OnCommandReady getListener() {
         return listener;
     }

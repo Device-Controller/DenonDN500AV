@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Mute extends DN500AVCommand {
-    private static final String MUTE = "MU";
+    public static final String MUTE = "MU";
     public static final String ON = "ON";
     public static final String OFF = "OFF";
     private List<String> muteStates = new ArrayList<>();
@@ -42,7 +42,7 @@ public class Mute extends DN500AVCommand {
     }
 
     public int getMuteSetting() {
-        if(!getValue().isEmpty()){
+        if(getValue() != null && !getValue().isEmpty()){
             if(getValue().equals(ON)){
                 return 1;
             } else if(getValue().equals(OFF)){

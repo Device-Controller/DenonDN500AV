@@ -1,0 +1,29 @@
+
+
+.display-table {
+    border-collapse: collapse;
+}
+.header-row {
+    font-size: 16px;
+    font-weight:  700;
+}
+body {
+    color: white;
+}
+
+td {
+    border: solid 2px #bfbfbf;
+    border-top: none;
+}
+
+.table-container {
+    border: solid 2px black;
+    display: inline-block;
+    margin: 1%;
+    background-color: #545454;
+    border-radius: 2%;
+}
+
+.display-table {
+    border-collapse: collapse;
+}

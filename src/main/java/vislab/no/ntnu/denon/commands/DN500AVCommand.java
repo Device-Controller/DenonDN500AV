@@ -31,6 +31,9 @@ public abstract class DN500AVCommand extends Command {
     }
 
 
+    public boolean isGETTER() {
+        return GETTER;
+    }
 
     @Override
     public String toString() {
@@ -38,12 +41,12 @@ public abstract class DN500AVCommand extends Command {
     }
     public abstract boolean isNumberRange();
     public abstract List<String> getValidValues();
-    public boolean isPowerOnCommand(){
+    public boolean extendedWaitTime(){
         return false;
     }
     public String getValue(){
         if(getResponse() != null && !getResponse().isEmpty()) {
-            return getResponse().substring(FIELD.length());
+            return getResponse().substring(FIELD.length()).trim().split("\\\\s+")[0];
         }
         return "";
     }

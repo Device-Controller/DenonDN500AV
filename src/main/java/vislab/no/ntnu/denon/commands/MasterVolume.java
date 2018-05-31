@@ -7,7 +7,7 @@ import java.util.List;
 import vislab.no.ntnu.denon.exception.DN500AVException;
 
 public class MasterVolume extends DN500AVCommand {
-    private static final String VOLUME = "MV";
+    public static final String VOLUME = "MV";
     private List<String> minMaxVolumeValues = new ArrayList<>();
 
     {
@@ -62,7 +62,7 @@ public class MasterVolume extends DN500AVCommand {
     }
 
     public int getMasterVolumeSetting() {
-        if(!getResponse().isEmpty()) {
+        if(getResponse() != null && !getResponse().isEmpty()) {
             try {
                 return Integer.parseInt(getValue());
             } catch (NumberFormatException e){

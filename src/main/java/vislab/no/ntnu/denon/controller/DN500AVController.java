@@ -8,16 +8,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import vislab.no.ntnu.DeviceManager;
 import vislab.no.ntnu.providers.Device;
-import vislab.no.ntnu.providers.Projector;
+
+import java.util.List;
 
 @Controller
-@RequestMapping("/DenonDN500AV")
+@RequestMapping("/api/DenonDN500AV")
 public class DN500AVController  extends DeviceManager {
-
-    @RequestMapping("/echo")
-    public ResponseEntity<String> yolo(@RequestParam ("marco") String marco){
-        return new ResponseEntity<>("yolo", HttpStatus.OK);
-    }
 
     @RequestMapping("/powerOn")
     public ResponseEntity<Integer> powerOn(@RequestParam("id") int id) {
@@ -31,10 +27,16 @@ public class DN500AVController  extends DeviceManager {
         return new ResponseEntity<>(device.powerOff(), HttpStatus.OK);
     }
 
-    @RequestMapping("/getMute")
-    public ResponseEntity<Integer> getMute(@RequestParam("id") int id) {
+    @RequestMapping("/getPower")
+    public ResponseEntity<StringResponse> getPower(@RequestParam("id") int id) {
         DN500AVDevice device = (DN500AVDevice) getDevice(id);
-        return new ResponseEntity<>(device.getMuteValue(), HttpStatus.OK);
+        return new ResponseEntity<>(new StringResponse(device.getPowerValue()), HttpStatus.OK);
+    }
+
+    @RequestMapping("/getMute")
+    public ResponseEntity<StringResponse> getMute(@RequestParam("id") int id) {
+        DN500AVDevice device = (DN500AVDevice) getDevice(id);
+        return new ResponseEntity<>(new StringResponse(device.getMuteValue()), HttpStatus.OK);
     }
 
     @RequestMapping("/mute")
@@ -43,7 +45,7 @@ public class DN500AVController  extends DeviceManager {
         return new ResponseEntity<>(device.mute(), HttpStatus.OK);
     }
 
-    @RequestMapping("/unmute")
+    @RequestMapping("/unMute")
     public ResponseEntity<Integer> unmute(@RequestParam("id") int id) {
         DN500AVDevice device = (DN500AVDevice) getDevice(id);
         return new ResponseEntity<>(device.unMute(), HttpStatus.OK);
@@ -75,15 +77,35 @@ public class DN500AVController  extends DeviceManager {
         return new ResponseEntity<>(device.getInputSource(), HttpStatus.OK);
     }
 
+    @RequestMapping("/getSources")
+    public ResponseEntity<List<String>> getSources(@RequestParam("id") int id) {
+        DN500AVDevice device = (DN500AVDevice) getDevice(id);
+        return new ResponseEntity<>(device.getInputSources(), HttpStatus.OK);
+    }
+
     @Override
     public String getDevicePage(int id){
         if(getSoundSystem(id) != null){
-            return "forward:/denon/denon.html";
+            return "forward:/dn500av/dn500av.html";
         }
         return super.getDevicePage(id);
     }
     protected Device getSoundSystem(int id) {
         Device device = getActiveDevices().get(id);
-        return device;
+        if(device instanceof DN500AVDevice) {
+            return device;
+        }
+        return null;
+    }
+
+    private class StringResponse {
+        private String response;
+        public StringResponse(String response){
+            this.response = response;
+        }
+
+        public String getResponse() {
+            return response;
+        }
     }
 }

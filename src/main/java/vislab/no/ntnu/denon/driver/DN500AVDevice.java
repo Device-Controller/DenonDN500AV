@@ -5,6 +5,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.HashMap;
+import java.util.List;
 
 import vislab.no.ntnu.denon.commands.DN500AVCommand;
 import vislab.no.ntnu.denon.commands.InputSource;
@@ -14,6 +15,7 @@ import vislab.no.ntnu.denon.commands.Power;
 import vislab.no.ntnu.denon.exception.DN500AVException;
 import vislab.no.ntnu.annotations.DeviceSPI;
 import vislab.no.ntnu.providers.Device;
+import vislab.no.ntnu.providers.PowerStates;
 
 @DeviceSPI
 public class DN500AVDevice implements Device, DN500AVInterface {
@@ -35,7 +37,11 @@ public class DN500AVDevice implements Device, DN500AVInterface {
         return communicationDriver;
     }
 
-    private void handleError() {
+    private void handleError(DN500AVCommand cmd) {
+        if (cmd != null) {
+            cmd.setResponse("E:ERROR");
+            fields.remove(cmd.getField());
+        }
     }
 
     private void processCommand(DN500AVCommand dn500AVCommand) {
@@ -59,19 +65,28 @@ public class DN500AVDevice implements Device, DN500AVInterface {
 
     private synchronized void send(DN500AVCommand cmd) {
         String field = fields.get(cmd.getField());
-        if(field == null || !field.equals(cmd.getParameter())){
-            while (driver == null || !driver.queueCommand(cmd)) {
-                try {
-                    driver = setUpDriver();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        boolean error = false;
+        while (!(driver != null || error)) {
+            try {
+                driver = setUpDriver();
+            } catch (IOException e) {
+                error = true;
             }
-            while (cmd.getResponse() == null) {
-                try {
-                    wait(200);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+        }
+        if ((field == null || !field.equals(cmd.getParameter()))) {
+            if(driver != null) {
+                driver.queueCommand(cmd);
+                long timeout = System.currentTimeMillis();
+                int waitTime = (cmd.extendedWaitTime() ? 1000 : 200);
+                while (cmd.getResponse() == null && timeout + (waitTime * 3) > System.currentTimeMillis()) {
+                    try {
+                        wait(waitTime);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (cmd.getResponse() == null) {
+                    handleError(cmd);
                 }
             }
         }
@@ -91,8 +106,16 @@ public class DN500AVDevice implements Device, DN500AVInterface {
     }
 
     public int setVolume(int setting) {
+        String value = "" + setting;
+        if (setting > 99) {
+            value = "995";
+        } else if (setting >= 0 && setting < 10) {
+            value = "0" + setting;
+        } else if (setting < 0) {
+            value = "00";
+        }
         try {
-            MasterVolume masterVolume = new MasterVolume(setting);
+            MasterVolume masterVolume = new MasterVolume(value);
             send(masterVolume);
             return masterVolume.getMasterVolumeSetting();
         } catch (DN500AVException e) {
@@ -133,18 +156,28 @@ public class DN500AVDevice implements Device, DN500AVInterface {
     }
 
     public int getVolumeValue() {
-        String field = new MasterVolume().getField();
+        String field = MasterVolume.VOLUME;
         return Integer.parseInt((fields.get(field) != null) ? fields.get(field) : "-1");
     }
 
-    public int getMuteValue() {
-        String field = new Mute().getField();
-        return Integer.parseInt((fields.get(field) != null) ? fields.get(field) : "-1");
+    public String getMuteValue() {
+        String field = Mute.MUTE;
+        return (fields.get(field) != null) ? fields.get(field) : "-1";
+    }
+
+    public String getPowerValue() {
+        String field = Power.POWER;
+        return (fields.get(field) != null) ? fields.get(field) : "-1";
     }
 
     public String getInputSourceValue() {
-        String field = new InputSource().getField();
+        String field = InputSource.INPUT_SOURCE;
         return (fields.get(field) != null) ? fields.get(field) : "NONE";
+    }
+
+    public List<String> getInputSources() {
+        InputSource is = new InputSource();
+        return is.inputSources;
     }
 
     public String getMake() {
@@ -182,6 +215,21 @@ public class DN500AVDevice implements Device, DN500AVInterface {
     @Override
     public void setPort(int port) {
         portNumber = port;
+    }
+
+    @Override
+    public int getPowerState() {
+        String powerState = fields.get(Power.POWER);
+        if (powerState != null) {
+            switch (powerState) {
+                case Power.OFF:
+                    return PowerStates.OFF;
+
+                case Power.ON:
+                    return PowerStates.ON;
+            }
+        }
+        return -1;
     }
 
 }

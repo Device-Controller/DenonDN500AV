@@ -17,7 +17,7 @@ public class DN500AVDriver implements Runnable {
     }
 
     public interface OnConnectionIssue {
-        void onError();
+        void onError(DN500AVCommand cmd);
     }
 
     private OnConnectionIssue issueCallback;
@@ -29,7 +29,16 @@ public class DN500AVDriver implements Runnable {
         this.outgoingBuffer = new ArrayList<>();
         this.communicator = new CommunicationContext(host.getOutputStream(), host.getInputStream(), outgoingBuffer);
         this.communicator.setOnCommandListener(this::handleCommand);
+        this.communicator.setOnConnectionIssueListener(this::onError);
         this.running = true;
+    }
+
+    private void onError(DN500AVCommand command) {
+        if (listener != null) {
+            issueCallback.onError(command);
+        } else {
+            System.err.println("Listener was null, command not handled");
+        }
     }
 
     private void handleCommand(DN500AVCommand command) {
@@ -57,7 +66,6 @@ public class DN500AVDriver implements Runnable {
                 } catch (IOException e) {
                     System.out.println(e.getMessage());
                     stopThread();
-
                 }
             }
             stopThread();
@@ -75,7 +83,12 @@ public class DN500AVDriver implements Runnable {
 
     public boolean stopThread() {
         if (issueCallback != null) {
-            issueCallback.onError();
+            issueCallback.onError(null);
+        }
+        try {
+            host.close();
+        } catch (IOException e) {
+            host = null;
         }
         running = false;
         return running;
